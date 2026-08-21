@@ -6,3 +6,5 @@
 <!-- badges: start -->
 
 <!-- badges: end -->
+
+### <https://arpanosso.github.io/estatistica-aplicada-adm/slides/Aula01.html>
