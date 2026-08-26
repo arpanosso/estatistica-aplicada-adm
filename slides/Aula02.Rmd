@@ -24,13 +24,193 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, comment = "#>", fig.align = "center")
 options(dplyr.print_min = 5, dplyr.print_max = 5)
 ```
+class: middle, center, inverse
+
+# Estimativas de Desvio-Padrão
+
+---
+## Estimativas de Desvio-Padrão
+
+Até agora aprendemos a construir o intervalo de confiância para a média e para proporção populacional. Agora, serão apresentados métodos para estimar desvios-padrão e variâncias populacionais.
+
+Comecemos com intervalorde confiançã para $\sigma$ baseados na estatística amostral $s$, que exigem que a população da qual extraímos as amostras tenha aproximadamente a forma de uma distribuilção normal. Nesse caso a estatística 
+
+$$
+\chi^2 = \frac{(n-1)s^2}{\sigma^2}
+$$
+denomaminada **estatística qui-quadrado** ($\chi$ é a letra grega minúscula *qui*). O parâmetro dessa distribuição contínua é denominado **graus de liberdade**, ou seja $(n-1)$.
+
+Denotação
+
+$$
+\chi^2_{n-1}
+$$
+---
+
+## Distribuição Qui-quadrado
+
+A função densidade de probabilidade da distribuição qui-quadrado para uma variável $x$ com $\nu$ graus de liberdade ( com $\nu$ > 0 ) é dada por:
+
+$$
+f(x) = \frac{1}{2^{\nu/2} \Gamma(\nu/2)}x^{(\nu/2)-1}e^{-x/2}
+$$
 
 
+```{r, echo=FALSE, fig.width=9, fig.height=4, fig.align='center'}
+gl <- 9
+x <- seq(0, 30, length.out = 1000)
+y <- dchisq(x, df = gl)
+plot(x, y, type = "l", lwd = 2, col = "royalblue",
+     main = paste("Distribuição Qui-Quadrado (gl =", gl, ")"),
+     xlab = "Valores de X", ylab = "Densidade",
+     las = 1, gedit = TRUE)
+abline(v = gl, col = "firebrick", lty = 2, lwd = 2)
+legend("topright", legend = c("Densidade", "Média (gl = 9)"),
+       col = c("royalblue", "firebrick"), lty = 1:2, lwd = 2)
+```
+
+Esperança: $E(X) = \nu$  
+Variância: $Var(X) = 2\nu$
+
+---
+## Distribuição Qui-quadrado
+
+Assim como nas distribuições $z_\alpha$ e $t_\alpha$, $\chi^2_\alpha$ é o valor para o qual a área sob a curva e à sua direita é $\alpha$, cujo valor depende do número de graus de liberdade (Tabela).
+
+Exemplo:  $\chi^2_{0{,}975}$ é o valor de $x$ para o qual a área sob a curva à sua esquerda é  $0{,}025$ ou seja $\alpha/2$ dado um $\alpha$ igal a $5\%$.
+
+Essa ressalva é necessário, pois a distribuição não é simétrica.
+
+
+
+---
+## Tabela Qui-quadrado
+
+Mostra a área sob a curva à direita
+
+![](img/tabela-qui-quadrado.jpg)
+---
+**Exemplo**: Dado $9$ graus de liberdade e $\alpha$ de $5\%$, o valor de $x$ cuja área após dele é $\alpha$ será $\chi^2_{0{,}05} = 16{,}919$.
+
+
+```{r grafico-qui-quadrado, echo=FALSE, fig.width=7, fig.height=4, fig.align='center'}
+# 1. Definições básicas
+gl <- 9
+alfa <- 0.05
+
+# 2. Encontrar o valor crítico onde começam os 5% finais
+valor_critico <- qchisq(1 - alfa, df = gl)
+
+# 3. Criar os pontos do gráfico
+x <- seq(0, 30, length.out = 1000)
+y <- dchisq(x, df = gl)
+
+# 4. Gerar o gráfico base
+plot(x, y, type = "l", lwd = 2, col = "royalblue",
+     main = paste("Distribuição Qui-Quadrado (gl =", gl, ")"),
+     xlab = "Valores de X", ylab = "Densidade", las = 1)
+
+# 5. Criar e pintar a área sombreada (0.05 final)
+x_shadow <- seq(valor_critico, 30, length.out = 100)
+y_shadow <- dchisq(x_shadow, df = gl)
+polygon(c(valor_critico, x_shadow, 30), c(0, y_shadow, 0), 
+        col = rgb(1, 0, 0, 0.3), border = NA)
+
+# 6. Adicionar linhas de referência (Média e Valor Crítico)
+abline(v = gl, col = "firebrick", lty = 2, lwd = 1.5)
+abline(v = valor_critico, col = "darkred", lty = 1, lwd = 1.5)
+
+# 7. Adicionar legenda informativa
+legend("topright", 
+       legend = c("Densidade", "Média (9)", paste("Val. Crítico (", round(valor_critico, 2), ")", sep=""), "Área de Rejeição (5%)"),
+       col = c("royalblue", "firebrick", "darkred", rgb(1, 0, 0, 0.3)), 
+       lty = c(1, 2, 1, NA), pch = c(NA, NA, NA, 15), lwd = c(2, 1.5, 1.5, NA))
+```
+
+![](img/R_logo.png)
+
+```{r}
+qchisq(1-.05, 9)
+```
+
+---
+**Exemplo**: Dado $9$ graus de liberdade e $\alpha$ de $5\%$, os valores de $x$ cujas as áreas antes e após ele são $\alpha * 2$ serão:
+
+$\chi^2_{0{,}975} = 2{,}700$   e  $\chi^2_{0{,}025} = 19{,}023$.
+
+```{r, grafico-qui-quadrado1, echo=FALSE, fig.width=7, fig.height=4, fig.align='center'}
+# 1. Definições básicas
+gl <- 9
+alfa_cauda <- 0.025
+
+# 2. Encontrar os valores críticos das duas caudas
+critico_inf <- qchisq(alfa_cauda, df = gl)      # Cauda esquerda (2.5%)
+critico_sup <- qchisq(1 - alfa_cauda, df = gl)  # Cauda direita (2.5%)
+
+# 3. Criar os pontos do gráfico
+x <- seq(0, 30, length.out = 1000)
+y <- dchisq(x, df = gl)
+
+# 4. Gerar o gráfico base
+plot(x, y, type = "l", lwd = 2, col = "royalblue",
+     main = paste("Distribuição Qui-Quadrado Bicaudal (gl =", gl, ")"),
+     xlab = "Valores de X", ylab = "Densidade", las = 1)
+
+# 5. Sombrear a cauda esquerda (0 a critico_inf)
+x_esq <- seq(0, critico_inf, length.out = 100)
+y_esq <- dchisq(x_esq, df = gl)
+polygon(c(0, x_esq, critico_inf), c(0, y_esq, 0), 
+        col = rgb(1, 0, 0, 0.3), border = NA)
+
+# 6. Sombrear a cauda direita (critico_sup a 30)
+x_dir <- seq(critico_sup, 30, length.out = 100)
+y_dir <- dchisq(x_dir, df = gl)
+polygon(c(critico_sup, x_dir, 30), c(0, y_dir, 0), 
+        col = rgb(1, 0, 0, 0.3), border = NA)
+
+# 7. Adicionar linhas dos valores críticos e da média
+abline(v = gl, col = "firebrick", lty = 2, lwd = 1.5)
+abline(v = c(critico_inf, critico_sup), col = "darkred", lty = 1, lwd = 1.5)
+
+# 8. Legenda descritiva
+legend("topright", 
+       legend = c("Densidade", 
+                  "Média (9)", 
+                  paste("Cortes (", round(critico_inf, 2), " e ", round(critico_sup, 2), ")", sep=""), 
+                  "Áreas de Rejeição (2.5% cada)"),
+       col = c("royalblue", "firebrick", "darkred", rgb(1, 0, 0, 0.3)), 
+       lty = c(1, 2, 1, NA), pch = c(NA, NA, NA, 15), lwd = c(2, 1.5, 1.5, NA),
+       bty = "n") # Remove a borda da legenda para economizar espaço no slide
+```
+
+```{r}
+qchisq(1-.025, 9)
+qchisq(.025, 9)
+```
+
+
+---
+## Estimativa do desvio-padrão
+
+Semelhante ao realizado para construção dos intervalos e confiança par aa média, temo que $1-\alpha$ é a probabilidade da variáveis aleatória com uma distribuição $\chi^2$ assuma um valor entre:
+
+$$\chi^2_{1-\alpha /2} < \chi^2 < \chi^2_{\alpha /2}$$
+
+A desigualdade pode ser reescrita como:
+
+$$
+\frac{(n-1)s^2}{\chi^2_{\alpha /2}}<\sigma^2<\frac{(n-1)s^2}{\chi^2_{1-\alpha /2}}
+$$
+
+---
 class: middle, center, inverse
 
 # Comparações de parâmetros de duas populações
 
 ---
+
+
+
 
 
 Suponha duas amostras aleatórias independentes de tamanhos $n_1$ e $n_2$ ou seja, $X_1 , X_2 , ..., X_{n1}$ e $Y_1 ,Y_2 , ...,Y_{n2}$, respectivamente, de uma população com distribuição $N(\mu_1, \sigma_1^2)$ e de população com distribuição $N(\mu_2, \sigma_2^2)$
