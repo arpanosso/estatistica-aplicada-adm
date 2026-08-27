@@ -29,11 +29,48 @@ class: middle, center, inverse
 # Estimativas de Desvio-Padrão
 
 ---
+
 ## Estimativas de Desvio-Padrão
 
-Até agora aprendemos a construir o intervalo de confiância para a média e para proporção populacional. Agora, serão apresentados métodos para estimar desvios-padrão e variâncias populacionais.
+Até agora aprendemos a construir o intervalo de confiança para a média e para proporção populacional - no curso de [Estatística](https://arpanosso.github.io/estatinfo/slides/Aula10.html#17):
 
-Comecemos com intervalorde confiançã para $\sigma$ baseados na estatística amostral $s$, que exigem que a população da qual extraímos as amostras tenha aproximadamente a forma de uma distribuilção normal. Nesse caso a estatística 
+$$IC(\mu;1-\alpha) = ]\bar{x}-z_{\alpha/2} \frac{\sigma}{\sqrt{n}};\bar{x}+z_{\alpha/2} \frac{\sigma}{\sqrt{n}}[$$
+
+$$IC(\mu;1-\alpha) = ]\bar{x}-z_{\alpha/2} \frac{s}{\sqrt{n}};\bar{x}+z_{\alpha/2} \frac{s}{\sqrt{n}}[$$   
+
+$$IC(\mu;1-\alpha) = ]\bar{x}-t_{\alpha/2} \frac{s}{\sqrt{n}};\bar{x}+t_{\alpha/2} \frac{s}{\sqrt{n}}[$$
+
+$$IC(\hat{p};1-\alpha) = \left]\hat{p}-z_{\alpha/2} \sqrt{\frac{\hat{p}\hat{q}}{n}};\hat{p}+z_{\alpha/2} \sqrt{\frac{\hat{p}\hat{q}}{n}} \right[$$
+
+agora, serão apresentados o método para estimar o intervalo de confiança para o desvios-padrão populacional.
+
+---
+## Desvio-padrão
+
+Relembrando do desvio padrão $s^2$, se $X_1,...X_n$ são observações **independentes** de uma população normal
+
+$$X_i \sim N(\mu, \sigma^2)$$
+a distribuição amostral da variância amostral é um resultado fundamental da inferência estatística. Lembrando que:
+
+$$
+s^2 = \frac{1}{(n-1)} \sum \limits_{i=1}^n(x_i-\bar{x})^2
+$$
+Assim, o desvio padrão amostral é definido como:
+
+$$
+s =\sqrt{\frac{1}{(n-1)} \sum \limits_{i=1}^n(x_i-\bar{x})^2}
+$$
+ou simplesmente:
+
+$$
+s = \sqrt{s^2}
+$$
+
+
+---
+## Estimativas de Desvio-Padrão
+
+Comecemos com intervalorde confiança para $\sigma$ baseados na estatística amostral $s$, que exigem que a população da qual extraímos as amostras tenha aproximadamente a forma de uma distribuilção normal. Nesse caso a estatística 
 
 $$
 \chi^2 = \frac{(n-1)s^2}{\sigma^2}
@@ -44,6 +81,13 @@ Denotação
 
 $$
 \chi^2_{n-1}
+$$
+
+
+Portanto, 
+
+$$
+\chi^2 = \frac{(n-1)s^2}{\sigma^2} \sim \chi^2_{n-1}
 $$
 ---
 
@@ -75,7 +119,7 @@ Variância: $Var(X) = 2\nu$
 ---
 ## Distribuição Qui-quadrado
 
-Assim como nas distribuições $z_\alpha$ e $t_\alpha$, $\chi^2_\alpha$ é o valor para o qual a área sob a curva e à sua direita é $\alpha$, cujo valor depende do número de graus de liberdade (Tabela).
+Assim como nas distribuições $z_\alpha$ e $t_\alpha$, $\chi^2_\alpha$ é o valor para o qual a área sob a curva e à sua direita é $\alpha$, cujo valor depende do número de graus de liberdade (veja Tabela a seguir).
 
 Exemplo:  $\chi^2_{0{,}975}$ é o valor de $x$ para o qual a área sob a curva à sua esquerda é  $0{,}025$ ou seja $\alpha/2$ dado um $\alpha$ igal a $5\%$.
 
@@ -90,7 +134,7 @@ Mostra a área sob a curva à direita
 
 ![](img/tabela-qui-quadrado.jpg)
 ---
-**Exemplo**: Dado $9$ graus de liberdade e $\alpha$ de $5\%$, o valor de $x$ cuja área após dele é $\alpha$ será $\chi^2_{0{,}05} = 16{,}919$.
+**Exemplo**: Dado $9$ graus de liberdade e $\alpha$ de $5\%$, o valor de $x$ cuja área após ele é $\alpha$ será $\chi^2_{0{,}05} = 16{,}919$.
 
 
 ```{r grafico-qui-quadrado, echo=FALSE, fig.width=7, fig.height=4, fig.align='center'}
@@ -187,6 +231,8 @@ legend("topright",
 qchisq(1-.025, 9)
 qchisq(.025, 9)
 ```
+---
+
 
 
 ---
@@ -198,9 +244,7 @@ $$\chi^2_{1-\alpha /2} < \chi^2 < \chi^2_{\alpha /2}$$
 
 A desigualdade pode ser reescrita como:
 
-$$
-\frac{(n-1)s^2}{\chi^2_{\alpha /2}}<\sigma^2<\frac{(n-1)s^2}{\chi^2_{1-\alpha /2}}
-$$
+$$\frac{(n-1)s^2}{\chi^2_{\alpha /2}}<\sigma^2<\frac{(n-1)s^2}{\chi^2_{1-\alpha /2}}$$
 
 ---
 class: middle, center, inverse
