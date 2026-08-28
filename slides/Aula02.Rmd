@@ -292,8 +292,16 @@ $\alpha = 0{,}01$
 $\chi^2_{0{,}995} = 2{,}606$   
 $\chi^2_{0{,}005} = 26{,}757$ 
 
-Ambor encontrados na [Tabela](https://github.com/arpanosso/estatistica-aplicada-adm/blob/master/docs/TabelaQuiQuadrado.pdf) para $11$ graus de liberdade. 
+Ambos encontrados na [Tabela](https://github.com/arpanosso/estatistica-aplicada-adm/blob/master/docs/TabelaQuiQuadrado.pdf) para $11$ graus de liberdade. 
 
+$$IC(\sigma^2;99\%) = \left]  \frac{(12-1)4{,}28}{26{,}757} ;\frac{(12-1)4{,}28}{2{,}606} \right[$$
+Assim, temos:
+
+$$IC(\sigma^2;99\%) = \left]  7{,}53 ; 77{,}41 \right[$$
+
+Finalmente, extraindo as raízes quadradas temos:
+
+$$IC(\sigma;99\%) = \left]  2{,}74 ; 8{,}80 \right[$$
 ---
 class: middle, center, inverse
 
