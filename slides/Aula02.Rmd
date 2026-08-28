@@ -47,7 +47,7 @@ agora, serão apresentados o método para estimar o intervalo de confiança para
 ---
 ## Desvio-padrão
 
-Relembrando do desvio padrão $s^2$, se $X_1,...X_n$ são observações **independentes** de uma população normal
+Relembrando do desvio padrão $s^2$, se $X_1,...X_n$ são observações **independentes** de uma população normal,
 
 $$X_i \sim N(\mu, \sigma^2)$$
 a distribuição amostral da variância amostral é um resultado fundamental da inferência estatística. Lembrando que:
@@ -55,7 +55,7 @@ a distribuição amostral da variância amostral é um resultado fundamental da 
 $$
 s^2 = \frac{1}{(n-1)} \sum \limits_{i=1}^n(x_i-\bar{x})^2
 $$
-Assim, o desvio padrão amostral é definido como:
+Assim, o desvio padrão amostral pode ser definido como:
 
 $$
 s =\sqrt{\frac{1}{(n-1)} \sum \limits_{i=1}^n(x_i-\bar{x})^2}
@@ -77,7 +77,7 @@ $$
 $$
 denomaminada **estatística qui-quadrado** ($\chi$ é a letra grega minúscula *qui*). O parâmetro dessa distribuição contínua é denominado **graus de liberdade**, ou seja $(n-1)$.
 
-Denotação
+Denotação:
 
 $$
 \chi^2_{n-1}
@@ -119,11 +119,11 @@ Variância: $Var(X) = 2\nu$
 ---
 ## Distribuição Qui-quadrado
 
-Assim como nas distribuições $z_\alpha$ e $t_\alpha$, $\chi^2_\alpha$ é o valor para o qual a área sob a curva e à sua direita é $\alpha$, cujo valor depende do número de graus de liberdade (veja Tabela a seguir).
+Assim como nas distribuições $z_\alpha$ e $t_\alpha$, $\chi^2_\alpha$ é o valor para o qual a área sob a curva à sua direita é $\alpha$, cujo valor depende do número de graus de liberdade (veja Tabela a seguir).
 
 Exemplo:  $\chi^2_{0{,}975}$ é o valor de $x$ para o qual a área sob a curva à sua esquerda é  $0{,}025$ ou seja $\alpha/2$ dado um $\alpha$ igal a $5\%$.
 
-Essa ressalva é necessário, pois a distribuição não é simétrica.
+Essa ressalva é necessário, pois a distribuição não é simétrica, e $x$ sempre assume valores maiores ou iguais a zero $(0)$.
 
 
 
@@ -231,20 +231,68 @@ legend("topright",
 qchisq(1-.025, 9)
 qchisq(.025, 9)
 ```
----
 
 
 
 ---
 ## Estimativa do desvio-padrão
 
-Semelhante ao realizado para construção dos intervalos e confiança par aa média, temo que $1-\alpha$ é a probabilidade da variáveis aleatória com uma distribuição $\chi^2$ assuma um valor entre:
+Semelhante ao realizado para construção dos intervalos e confiança para a média, temos que $1-\alpha$ é a probabilidade da variável aleatória com uma distribuição $\chi^2$ assuma um valor entre:
 
 $$\chi^2_{1-\alpha /2} < \chi^2 < \chi^2_{\alpha /2}$$
 
 A desigualdade pode ser reescrita como:
 
 $$\frac{(n-1)s^2}{\chi^2_{\alpha /2}}<\sigma^2<\frac{(n-1)s^2}{\chi^2_{1-\alpha /2}}$$
+
+Assim,
+
+$$IC(\sigma^2;1-\alpha) = \left]  \frac{(n-1)s^2}{\chi^2_{\alpha /2}} ;\frac{(n-1)s^2}{\chi^2_{1-\alpha /2}} \right[$$
+
+---
+
+**Exemplo**: Durante a execução de determinada tarefa sob condições simuladas de imponderabilidade, a média da taxa de batimentos cardíacos de $12$ astronautas aumentou em $27{,}33$ batimentos por minuto, com desvio-padrãode $4{,28}$ batimentos por minuto. 
+
+
+
+```{r,out.width = "60%",fig.cap="",fig.align = 'center',echo=FALSE}
+knitr::include_graphics("https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXluZnp3cTh1Z25hZXgwaHhkZTZzeGQ4eWsydTI2N3pjYzFiNXUyYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7btZ3T6y3JTmjg4w/giphy.gif")
+```
+
+a) Construa um intervalo de $99\%$ de confiança para o verdadeiro aumento médio $(\mu)$ da taxa de batimentos cardíacos dos astronautas no desempenho da tarefa.
+
+b) Construa um intervalo de $99\%$ de confiança para $\sigma$, o real desvio médio do acréscimo da taxa de batimentos cardíacos dos astronautas nessas condições.
+
+---
+**Solução**
+
+a) Dado que o tamanho da amostra é inferior a $30$ e o desvio padrão $\sigma$ é desconhecidos, utilizaremos a distribuição t de Student. Assim:
+
+$$IC(\mu;1-\alpha) = ]\bar{x}-t_{\alpha/2} \frac{s}{\sqrt{n}};\bar{x}+t_{\alpha/2} \frac{s}{\sqrt{n}}[$$
+Dados:  
+$n = 12$
+$\bar{x}=27{,}33$  
+$s = 4{,}28$  
+$\alpha = 0{,}01$  
+$t_{0{,}01} = 3{,}106$ (encontrado na [Tabela](https://github.com/arpanosso/estatistica-aplicada-adm/blob/master/docs/Tabela_tdeStudent.pdf) para $11$ graus de liberdade). 
+
+$$IC(\mu;99\%) = ]27{,}33-3{,}106 \frac{4{,}28}{\sqrt{12}};27{,}33+3{,}106 \frac{4{,}28}{\sqrt{12}}[$$
+$$IC(\mu;99\%) = ]23{,}59;31{,}17[$$
+---
+
+**Solução**
+
+b) Construa um intervalo de $99\%$ de confiança para $\sigma$, o real desvio médio do acréscimo da taxa de batimentos cardíacos dos astronautas nessas condições.
+
+Dados:  
+$n = 12$
+$\nu = 11$ graus de liberdade
+$s = 4{,}28$  
+$\alpha = 0{,}01$  
+$\chi^2_{0{,}995} = 2{,}606$   
+$\chi^2_{0{,}005} = 26{,}757$ 
+
+Ambor encontrados na [Tabela](https://github.com/arpanosso/estatistica-aplicada-adm/blob/master/docs/TabelaQuiQuadrado.pdf) para $11$ graus de liberdade. 
 
 ---
 class: middle, center, inverse
