@@ -7,7 +7,7 @@
 title: "Estatística e Informática"
 subtitle: "Aula 13 - Distribuição Qui-Quadrado"
 author: "Alan Rodrigo Panosso <alan.panosso@unesp.br>"
-institute: "Departamento de Engenharia e Ciências Exatas FCAV/UNESP"
+institute: "Departamento de Ciências Exatas FCAV/UNESP"
 date: "(15-07-2021)"
 encoding: "UTF-8"
 output:
@@ -71,7 +71,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/arpanosso/estatinfo/m
 
 ---
 
-### Testes Qui-quadrado
+### Teste Qui-quadrado
 
 Serão apresentados testes que utilizam a distribuição qui-quadrado como estrutura probabilística e por esta razão são denominados **testes qui-quadrado**. A figura anterior apresenta a densidade do modelo $\chi^2$ com a região crítica $(RC)$ do teste, isto é,  
 

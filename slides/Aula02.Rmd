@@ -305,6 +305,188 @@ $$IC(\sigma;99\%) = \left]  2{,}74 ; 8{,}80 \right[$$
 ---
 class: middle, center, inverse
 
+#Tabelas de Contingência
+##Associação e Independência
+
+---
+
+### Análise de uma Tabela de Contingência $( r \times c)$
+
+O método que vamos descrever é uma aplicação da estatística $\chi^2$ em vários tipos e problemas que diferem conceitualmente, mas que são analisados da mesma maneira. 
+
+Tabelas r x c, referem-se ao número de linhas (r, do inglês rows) e colunas (c - do inglês columns)
+
+--
+.center[
+![](img/o-pagador-de-promessas.png)
+]
+
+
+---
+### Análise de uma Tabela de Contingência $( r \times c)$
+
+Incialmente, consideramos um problema de generalização imediata, que estudamos na [Aula 6](https://arpanosso.github.io/estatinfo/slides/Aula06.html#39) do Curso de Estatística do semestre passado:
+
+Dada a seguinte tabela, referente ao sexo $(F, M)$ e a cor do cabelo (*Ruivos* e *Não Ruivos*) de crianças em uma escola:
+
+ | Ruivo $(R)$ | Não Ruivo $(\bar{R})$ | TOTAL
+---|:---:|:---:|:---:|---:
+**Feminino $(F)$** | 4  | 26 | **30**
+**Masculino $(\bar{F})$** | 17 | 13 | **30** 
+**TOTAL** | **21** | **39** | **60**
+
+Ao selecionarmos um aluno ao acaso, pergunta-se:
+
+a) Qual a probabilidade do estudante ser *Ruivo*?  
+b) Qual a probabilidade do estudante ser do sexo *Feminino*?  
+c) Qual a probabilidade do estudante ser do sexo *Feminino* **e** *Ruivo*?  
+d) Qual a probabilidade do estudante ser do sexo *Feminino* **ou** *Ruivo*?  
+e) A cor do cabelo depende do sexo?
+
+---
+
+**Solução:**
+
+ | Ruivo $(R)$ | Não Ruivo $(\bar{R})$ | TOTAL
+---|:---:|:---:|:---:|---:
+**Feminino $(F)$** | 4  | 26 | **30**
+**Masculino $(\bar{F})$** | 17 | 13 | **30** 
+**TOTAL** | **21** | **39** | **60**
+a) $P(Ruivo ) = \frac{21}{60} = 0,35$
+
+
+b) $P(Feminino) = \frac{30}{60} = 0,50$
+
+
+c)  $P(Feminino \cap Ruivo) = \frac{4}{60} = 0,06667$
+
+d) 
+$P(F \cup R) = P(F)  + P(R) - P(F \cap R) \\ P(F \cup R) = \frac{21}{60} + \frac{30}{60} -\frac{4}{60} \\ P(F \cup R)= \frac{47}{60} = 0,7833$
+
+---
+
+Observe que os totais das colunas $(4+17)= 21$ e $(26+13) = 39$ dependem da cor do cabelo das pessoas, ou seja da decisão em mudar ou não a cor do cabelo, ou seja, do acaso. 
+
+Essa tabela é dita "uma tabela 2 por 2" $(2 \times 2)$.
+
+
+
+
+ | Ruivo $(R)$ | Não Ruivo $(\bar{R})$ | TOTAL
+---|:---:|:---:|:---:|---:
+**Feminino $(F)$** | 4  | 26 | **30**
+**Masculino $(\bar{F})$** | 17 | 13 | **30** 
+**TOTAL** | **21** | **39** | **60**
+
+A hipótese nula que queremos testar é que para a cordo cabelo $(R \text{ e } \bar{R})$ as probabilidades são as mesmas para cada um dos sexos avaliados $(F \text{ e } \bar{F})$, ou seja a $P(R|F) = P(R|\bar{F})$ e $P(\bar{R}|F) = P(\bar{R}|\bar{F})$.
+
+Em outras palavras, estamos testando se existe uma relação entre a cor do cabelo e o sexo. Assim, as hipoteses testadas em tabelas de contingência são
+
+$$
+\begin{cases}
+H_0: \text{as duas variáveis são independentes} \\
+H_1: \text{as duas variáveis não são independentes}
+\end{cases}
+$$
+---
+
+Para construção do nosso teste, seguiremos a seguinte lógica: Se a hipótese nula é verdadeira, podemos combinar as duas amostras e estima a probabilidade de que uma pessoa vá escolher "pintar o cabelo de ruivo" $R$,  $\frac{(4+17)}{60} = \frac{21}{60}$.
+
+Então, dentre as 30 pessoas do sexo feminino  e 30 pessoas do sexo masculino podemos esperar:
+
+Para $F$: $\frac{21\times 30}{60}  = 10{,}5$   
+Para $\bar{F}$: $\frac{21\times 30}{60} = 10{,}5$ 
+
+sejam ruivos. Assim,
+
+  > Obtém-se a frequência esperada de qualquer céluda de uma tabela r x c multiplicando o total da linha à qual pertence pelo total da coluna à qual pertence e, em seguida, dividir o resultado pelo total geral da tabela.
+  
+Agora, para os não ruivos $\bar{R}$ os resultados das frequêcias esperadas podem ser calculados por subtração dos totais das linhas, portanto, podemos esperar:
+
+Para $F$: $30 -  10{,}5 = 19{,}5$   
+Para $\bar{F}$: $30 -  10{,}5 = 19{,}5$ 
+
+não ruivos.
+
+---
+
+Os resultados podem ser resumidos na tabela a seguir, em que as frenquências esperadas aparecem entre parênteses, abaixo das frequências observadas correspondentes:
+
+ | Ruivo $(R)$ | Não Ruivo $(\bar{R})$ | TOTAL
+---|:---:|:---:|:---:|---:
+**Feminino $(F)$** | 4 <br> (10,5) | 26 <br> (19,5) | **30**
+**Masculino $(\bar{F})$** | 17 <br> (10,5)| 13 <br> (19,5)| **30** 
+**TOTAL** | **21** | **39** | **60**
+
+Para testar a hipótese nula sob as frequências esperada das células, podemos compará-las com as frequências observadas. denotando $O$ para as frequências observadas e $E$ para as esperadas, a base de comparação é a estatítica qui-quadrado:
+
+$$\chi^2_{obs} = \sum \frac{(O-E)^2}{E}$$
+Se $H_0$ é verdadeira, essa estatística é um valor de uma variável aleatória que tem aproximadamente a distribuição $\chi^2$ com $(r-1)(c-1)$ graus de liberdade, no nosso exemplo $(2-1)(2-1) = 1$
+
+---
+Calculando a estatítica do Teste
+
+
+$$\chi^2_{obs} = \frac{(4-10{,}5)^2}{10{,}5} + \frac{(26-19{,}5)^2}{19{,}5} + \frac{(17-10{,}5)^2}{10{,}5} + \frac{(13-19{,}5)^2}{19{,}5}= 12{,38}$$
+
+Considerando um $\alpha = 5%$ e gl = $1$, pela tabela temos 
+
+```{r grafico-qui-quadrado-ex, echo=FALSE, fig.width=7, fig.height=4, fig.align='center'}
+# 1. Definições básicas
+gl <- 1
+alfa <- 0.05
+estatistica <- 12.38
+# 2. Encontrar o valor crítico onde começam os 5% finais
+valor_critico <- qchisq(1 - alfa, df = gl)
+
+# 3. Criar os pontos do gráfico
+x <- seq(0, 30, length.out = 1000)
+y <- dchisq(x, df = gl)
+
+# 4. Gerar o gráfico base
+plot(x, y, type = "l", lwd = 2, col = "royalblue",
+     main = paste("Distribuição Qui-Quadrado (gl =", gl, ")"),
+     xlab = "Valores de X", ylab = "Densidade", las = 1)
+
+# 5. Criar e pintar a área sombreada (0.05 final)
+x_shadow <- seq(valor_critico, 30, length.out = 100)
+y_shadow <- dchisq(x_shadow, df = gl)
+polygon(c(valor_critico, x_shadow, 30), c(0, y_shadow, 0), 
+        col = rgb(1, 0, 0, 0.3), border = NA)
+
+# 6. Adicionar linhas de referência (Média e Valor Crítico)
+abline(v = estatistica, col = "firebrick", lty = 2, lwd = 1.5)
+abline(v = valor_critico, col = "darkred", lty = 1, lwd = 1.5)
+
+# 7. Adicionar legenda informativa
+legend("topright", 
+       legend = c("Densidade", "Estatística do Teste", paste("Val. Crítico (", round(valor_critico, 2), ")", sep=""), "Área de Rejeição (5%)"),
+       col = c("royalblue", "firebrick", "darkred", rgb(1, 0, 0, 0.3)), 
+       lty = c(1, 2, 1, NA), pch = c(NA, NA, NA, 15), lwd = c(2, 1.5, 1.5, NA))
+```
+Região Crítica:
+
+$RC = \{ \chi^2 | \chi^2 \ge 3{,84}\}$
+$\chi^2_{obs} \in RC$
+
+**Conclusão** Rejeitamos $H_0$ ao nível de $5\%$ de significância e concluímos que as variávies não são independentes.
+
+---
+![](img/R_logo.png)
+```{r}
+dados <- matrix(
+  c(4, 26,
+    17, 13),
+  nrow = 2,
+  byrow = TRUE
+)
+dados
+chisq.test(dados, correct = FALSE)
+```
+
+---
+class: middle, center, inverse
+
 # Comparações de parâmetros de duas populações
 
 ---
