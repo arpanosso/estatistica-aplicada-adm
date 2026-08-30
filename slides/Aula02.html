@@ -108,7 +108,7 @@ f(x) = \frac{1}{2^{\nu/2} \Gamma(\nu/2)}x^{(\nu/2)-1}e^{-x/2}
 $$
 
 
-&lt;img src="Aula02_files/figure-html/unnamed-chunk-1-1.png" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="Aula02_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
 
 Esperança: `\(E(X) = \nu\)`  
 Variância: `\(Var(X) = 2\nu\)`
@@ -134,7 +134,7 @@ Mostra a área sob a curva à direita
 **Exemplo**: Dado `\(9\)` graus de liberdade e `\(\alpha\)` de `\(5\%\)`, o valor de `\(x\)` cuja área após ele é `\(\alpha\)` será `\(\chi^2_{0{,}05} = 16{,}919\)`.
 
 
-&lt;img src="Aula02_files/figure-html/grafico-qui-quadrado-1.png" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="Aula02_files/figure-html/grafico-qui-quadrado-1.png" style="display: block; margin: auto;" /&gt;
 
 ![](img/R_logo.png)
 
@@ -152,7 +152,7 @@ qchisq(1-.05, 9)
 
 `\(\chi^2_{0{,}975} = 2{,}700\)`   e  `\(\chi^2_{0{,}025} = 19{,}023\)`.
 
-&lt;img src="Aula02_files/figure-html/grafico-qui-quadrado1-1.png" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="Aula02_files/figure-html/grafico-qui-quadrado1-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ``` r
@@ -194,7 +194,7 @@ Assim,
 
 
 
-&lt;img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXluZnp3cTh1Z25hZXgwaHhkZTZzeGQ4eWsydTI2N3pjYzFiNXUyYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7btZ3T6y3JTmjg4w/giphy.gif" alt="" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXluZnp3cTh1Z25hZXgwaHhkZTZzeGQ4eWsydTI2N3pjYzFiNXUyYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7btZ3T6y3JTmjg4w/giphy.gif" width="60%" style="display: block; margin: auto;" /&gt;
 
 a) Construa um intervalo de `\(99\%\)` de confiança para o verdadeiro aumento médio `\((\mu)\)` da taxa de batimentos cardíacos dos astronautas no desempenho da tarefa.
 
@@ -368,7 +368,7 @@ Calculando a estatítica do Teste
 
 Considerando um `\(\alpha = 5%\)` e gl = `\(1\)`, pela tabela temos 
 
-&lt;img src="Aula02_files/figure-html/grafico-qui-quadrado-ex-1.png" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="Aula02_files/figure-html/grafico-qui-quadrado-ex-1.png" style="display: block; margin: auto;" /&gt;
 Região Crítica:
 
 `\(RC = \{ \chi^2 | \chi^2 \ge 3{,84}\}\)`
@@ -404,7 +404,8 @@ chisq.test(dados, correct = FALSE)
 #&gt; 	Pearson's Chi-squared test
 #&gt; 
 #&gt; data:  dados
-#&gt; X-squared = 12.381, df = 1, p-value = 0.0004337
+#&gt; X-squared = 12.381, df = 1, p-value =
+#&gt; 0.0004337
 ```
 
 ---
@@ -446,7 +447,7 @@ Sob a suposição de `\(H_0\)` ser verdadeira, isto é, `\(\sigma^2_1 = \sigma^2
 
 Fixado `\(\alpha\)`, os pontos críticos serão `\(F_1\)` e `\(F_2\)` da distribuição `\(F\)`, tais que:
 
-&lt;img src="https://raw.githubusercontent.com/arpanosso/estatinfo/master/slides/img/testeH_17.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://raw.githubusercontent.com/arpanosso/estatinfo/master/slides/img/testeH_17.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 Se `\(\alpha = 10\%\)`, pode-se, utilizando a Tabela da distribuição `\(F\)`, encontrar diretamente `\(F_2(5\%)\)`. Para encontrar `\(F_1(95\%)\)` utiliza-se a propriedade:
 
@@ -513,7 +514,8 @@ var.test(r1,r2)
 #&gt; 	F test to compare two variances
 #&gt; 
 #&gt; data:  r1 and r2
-#&gt; F = 1.0362, num df = 7, denom df = 7, p-value = 0.9638
+#&gt; F = 1.0362, num df = 7, denom df = 7,
+#&gt; p-value = 0.9638
 #&gt; alternative hypothesis: true ratio of variances is not equal to 1
 #&gt; 95 percent confidence interval:
 #&gt;  0.2074474 5.1756306
@@ -549,7 +551,7 @@ A estatística do teste: `\(\frac{s_{r1}^2}{s_{r2}^2} = \frac{0,10433}{0,10068} 
 
 ---
 `\(F_{c(0,05; 7, 7)} = 3,79\)` assim, `\(RC = \{  F &gt; 3,79 \}\)`
-&lt;img src="Aula02_files/figure-html/unnamed-chunk-8-1.png" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="Aula02_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 
 Como `\(F_{obs} \notin RC\)` não se rejeita `\(H_0\)`, ou seja, as variâncias são estatisticamente iguais ao nível de 5% de significância, ou seja, as variâncias dos ganhos de peso das raças são homocedásticas.
@@ -654,7 +656,7 @@ Portanto,
 
 ---
 
-&lt;img src="https://raw.githubusercontent.com/arpanosso/estatinfo/master/slides/img/ic_05.png" alt="" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="https://raw.githubusercontent.com/arpanosso/estatinfo/master/slides/img/ic_05.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 Para a construção da **região crítica** do teste: `\(t_c(14; 0,05) = -1,761\)` assim, a região crítica é `\(RC = \{ t \le -1,76131\}\)`
 
@@ -662,7 +664,7 @@ Para a construção da **região crítica** do teste: `\(t_c(14; 0,05) = -1,761\
 ---
 **Conclusão**: Como `\(t_{obs} \notin RC\)`, não rejeita-se `\(H_0\)`, não há evidências de que a raça 1 apresenta maior ganho de peso que a raça 2.
 
-&lt;img src="Aula02_files/figure-html/unnamed-chunk-11-1.png" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="Aula02_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
