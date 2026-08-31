@@ -5,7 +5,7 @@
 # gifs https://giphy.com/
 # https://www.ime.usp.br/~rfarias/simbolos.html
 title: "Estatística Aplicada à Administração"
-subtitle: "Comparações de Duas Populações"
+subtitle: "Distribuição Amostral do Desvio Padrão e o Teste Qui-quadrado"
 author: "Alan Rodrigo Panosso <alan.panosso@unesp.br>"
 institute: "Departamento de Ciências Exatas FCAV/UNESP"
 date: "31 agosto de 2026"
@@ -32,7 +32,7 @@ class: middle, center, inverse
 
 ## Estimativas de Desvio-Padrão
 
-Até agora aprendemos a construir o intervalo de confiança para a média e para proporção populacional - no curso de [Estatística](https://arpanosso.github.io/estatinfo/slides/Aula10.html#17):
+Até agora aprendemos a construir o intervalo de confiança para a média e para proporção populacional - no curso de [Estatística](https://arpanosso.github.io/estatinfo/slides/Aula10.html#17) do primeiro semestre:
 
 $$IC(\mu;1-\alpha) = ]\bar{x}-z_{\alpha/2} \frac{\sigma}{\sqrt{n}};\bar{x}+z_{\alpha/2} \frac{\sigma}{\sqrt{n}}[$$
 
@@ -80,7 +80,7 @@ denomaminada **estatística qui-quadrado** ($\chi$ é a letra grega minúscula *
 Denotação:
 
 $$
-\chi^2_{n-1}
+\chi^2_{(n-1)}
 $$
 
 
@@ -101,6 +101,7 @@ $$
 
 
 ```{r, echo=FALSE, fig.width=9, fig.height=4, fig.align='center'}
+library(tidyverse)
 gl <- 9
 x <- seq(0, 30, length.out = 1000)
 y <- dchisq(x, df = gl)
@@ -178,7 +179,7 @@ qchisq(1-.05, 9)
 ```
 
 ---
-**Exemplo**: Dado $9$ graus de liberdade e $\alpha$ de $5\%$, os valores de $x$ cujas as áreas antes e após ele são $\alpha * 2$ serão:
+**Exemplo**: Dado $9$ graus de liberdade e $\alpha$ de $5\%$, os valores de $x$ cujas as áreas antes e após ele são $\alpha / 2$ serão:
 
 $\chi^2_{0{,}975} = 2{,}700$   e  $\chi^2_{0{,}025} = 19{,}023$.
 
@@ -270,7 +271,7 @@ a) Dado que o tamanho da amostra é inferior a $30$ e o desvio padrão $\sigma$ 
 
 $$IC(\mu;1-\alpha) = ]\bar{x}-t_{\alpha/2} \frac{s}{\sqrt{n}};\bar{x}+t_{\alpha/2} \frac{s}{\sqrt{n}}[$$
 Dados:  
-$n = 12$
+$n = 12$  
 $\bar{x}=27{,}33$  
 $s = 4{,}28$  
 $\alpha = 0{,}01$  
@@ -282,11 +283,11 @@ $$IC(\mu;99\%) = ]23{,}59;31{,}17[$$
 
 **Solução**
 
-b) Construa um intervalo de $99\%$ de confiança para $\sigma$, o real desvio médio do acréscimo da taxa de batimentos cardíacos dos astronautas nessas condições.
+b) Construa um intervalo de $99\%$ de confiança para $\sigma$, o real desvio médio do acréscimo da taxa de batimentos cardíacos dos astronautas nas condições simuladas.
 
 Dados:  
-$n = 12$
-$\nu = 11$ graus de liberdade
+$n = 12$  
+$\nu = 11$ graus de liberdade  
 $s = 4{,}28$  
 $\alpha = 0{,}01$  
 $\chi^2_{0{,}995} = 2{,}606$   
@@ -314,9 +315,8 @@ class: middle, center, inverse
 
 O método que vamos descrever é uma aplicação da estatística $\chi^2$ em vários tipos e problemas que diferem conceitualmente, mas que são analisados da mesma maneira. 
 
-Tabelas r x c, referem-se ao número de linhas (r, do inglês rows) e colunas (c - do inglês columns)
+Tabelas $r \times c$, referem-se ao número de linhas (r, do inglês rows) e colunas (c - do inglês columns)
 
---
 .center[
 ![](img/o-pagador-de-promessas.png)
 ]
@@ -325,15 +325,15 @@ Tabelas r x c, referem-se ao número de linhas (r, do inglês rows) e colunas (c
 ---
 ### Análise de uma Tabela de Contingência $( r \times c)$
 
-Incialmente, consideramos um problema de generalização imediata, que estudamos na [Aula 6](https://arpanosso.github.io/estatinfo/slides/Aula06.html#39) do Curso de Estatística do semestre passado:
+Incialmente, consideramos um problema de generalização imediata, que estudamos na [Aula 6](https://arpanosso.github.io/estatinfo/slides/Aula06.html#39) do Curso de Estatística do semestre passado, mas agora com algumas modificações:
 
-Dada a seguinte tabela, referente ao sexo $(F, M)$ e a cor do cabelo (*Ruivos* e *Não Ruivos*) de crianças em uma escola:
+Dada a seguinte tabela, referente ao sexo (*Feminino*  - $F$ e *Não Feminino* - $\bar{F}$ e a cor do cabelo ( *Ruivos* - $R$ e *Não Ruivos* - $\bar{R}$) de adolescentes em uma escola:
 
- | Ruivo $(R)$ | Não Ruivo $(\bar{R})$ | TOTAL
+ |  $R$ | $\bar{R}$ | TOTAL
 ---|:---:|:---:|:---:|---:
-**Feminino $(F)$** | 4  | 26 | **30**
-**Masculino $(\bar{F})$** | 17 | 13 | **30** 
-**TOTAL** | **21** | **39** | **60**
+ $F$ | 4  | 26 | **30**
+ $\bar{F}$ | 17 | 18 | **35** 
+**TOTAL** | **21** | **44** | **65**
 
 Ao selecionarmos um aluno ao acaso, pergunta-se:
 
@@ -347,40 +347,43 @@ e) A cor do cabelo depende do sexo?
 
 **Solução:**
 
- | Ruivo $(R)$ | Não Ruivo $(\bar{R})$ | TOTAL
+ |  $R$ | $\bar{R}$ | TOTAL
 ---|:---:|:---:|:---:|---:
-**Feminino $(F)$** | 4  | 26 | **30**
-**Masculino $(\bar{F})$** | 17 | 13 | **30** 
-**TOTAL** | **21** | **39** | **60**
-a) $P(Ruivo ) = \frac{21}{60} = 0,35$
+ $F$ | 4  | 26 | **30**
+ $\bar{F}$ | 17 | 18 | **35** 
+**TOTAL** | **21** | **44** | **65**
+
+a) $P(Ruivo ) = \frac{21}{65} = 0,323$
 
 
-b) $P(Feminino) = \frac{30}{60} = 0,50$
+b) $P(Feminino) = \frac{30}{65} = 0,461$
 
 
-c)  $P(Feminino \cap Ruivo) = \frac{4}{60} = 0,06667$
+c)  $P(Feminino \cap Ruivo) = \frac{4}{65} = 0,0615$
 
 d) 
-$P(F \cup R) = P(F)  + P(R) - P(F \cap R) \\ P(F \cup R) = \frac{21}{60} + \frac{30}{60} -\frac{4}{60} \\ P(F \cup R)= \frac{47}{60} = 0,7833$
+$P(F \cup R) = P(F)  + P(R) - P(F \cap R) \\ P(F \cup R) = \frac{21}{65} + \frac{30}{65} -\frac{4}{65} \\ P(F \cup R)= \frac{47}{65} = 0,723$
 
 ---
 
-Observe que os totais das colunas $(4+17)= 21$ e $(26+13) = 39$ dependem da cor do cabelo das pessoas, ou seja da decisão em mudar ou não a cor do cabelo, ou seja, do acaso. 
+Observe que os totais das colunas $(4+17)= 21$ e $(26+18) = 44$ dependem da cor do cabelo das pessoas, ou seja da decisão em mudar ou não a cor do cabelo, ou seja, do acaso, uma vez que a amostragem foi aleatória. 
 
 Essa tabela é dita "uma tabela 2 por 2" $(2 \times 2)$.
 
 
 
 
- | Ruivo $(R)$ | Não Ruivo $(\bar{R})$ | TOTAL
+ |  $R$ | $\bar{R}$ | TOTAL
 ---|:---:|:---:|:---:|---:
-**Feminino $(F)$** | 4  | 26 | **30**
-**Masculino $(\bar{F})$** | 17 | 13 | **30** 
-**TOTAL** | **21** | **39** | **60**
+ $F$ | 4  | 26 | **30**
+ $\bar{F}$ | 17 | 18 | **35** 
+**TOTAL** | **21** | **44** | **65**
 
 A hipótese nula que queremos testar é que para a cordo cabelo $(R \text{ e } \bar{R})$ as probabilidades são as mesmas para cada um dos sexos avaliados $(F \text{ e } \bar{F})$, ou seja a $P(R|F) = P(R|\bar{F})$ e $P(\bar{R}|F) = P(\bar{R}|\bar{F})$.
 
-Em outras palavras, estamos testando se existe uma relação entre a cor do cabelo e o sexo. Assim, as hipoteses testadas em tabelas de contingência são
+Em outras palavras, estamos testando se existe uma relação entre a cor do cabelo e o sexo, ou seja, duas variáveis categóricas. 
+
+Assim, as hipoteses testadas em tabelas de contingência são
 
 $$
 \begin{cases}
@@ -390,12 +393,12 @@ H_1: \text{as duas variáveis não são independentes}
 $$
 ---
 
-Para construção do nosso teste, seguiremos a seguinte lógica: Se a hipótese nula é verdadeira, podemos combinar as duas amostras e estima a probabilidade de que uma pessoa vá escolher "pintar o cabelo de ruivo" $R$,  $\frac{(4+17)}{60} = \frac{21}{60}$.
+Para construção do nosso teste, seguiremos a seguinte lógica: Se a hipótese nula é verdadeira, podemos combinar as duas amostras e estimar a probabilidade de que uma pessoa vá escolher "pintar o cabelo de ruivo" $R$,  $\frac{(4+17)}{65} = \frac{21}{65}$.
 
-Então, dentre as 30 pessoas do sexo feminino  e 30 pessoas do sexo masculino podemos esperar:
+Então, dentre as $30$ pessoas do sexo feminino  e $35$ pessoas do sexo masculino podemos esperar:
 
-Para $F$: $\frac{21\times 30}{60}  = 10{,}5$   
-Para $\bar{F}$: $\frac{21\times 30}{60} = 10{,}5$ 
+Para $F$: $\frac{21\times 30}{65}  = 9{,}69$   
+Para $\bar{F}$: $\frac{21\times 35}{65} = 11{,}31$ 
 
 sejam ruivos. Assim,
 
@@ -403,8 +406,8 @@ sejam ruivos. Assim,
   
 Agora, para os não ruivos $\bar{R}$ os resultados das frequêcias esperadas podem ser calculados por subtração dos totais das linhas, portanto, podemos esperar:
 
-Para $F$: $30 -  10{,}5 = 19{,}5$   
-Para $\bar{F}$: $30 -  10{,}5 = 19{,}5$ 
+Para $F$: $30 -  9{,}69 = 20{,}31$   
+Para $\bar{F}$: $35 -  11{,}31 = 23{,}69$ 
 
 não ruivos.
 
@@ -412,11 +415,11 @@ não ruivos.
 
 Os resultados podem ser resumidos na tabela a seguir, em que as frenquências esperadas aparecem entre parênteses, abaixo das frequências observadas correspondentes:
 
- | Ruivo $(R)$ | Não Ruivo $(\bar{R})$ | TOTAL
+ |  $R$ |  $\bar{R}$ | TOTAL
 ---|:---:|:---:|:---:|---:
-**Feminino $(F)$** | 4 <br> (10,5) | 26 <br> (19,5) | **30**
-**Masculino $(\bar{F})$** | 17 <br> (10,5)| 13 <br> (19,5)| **30** 
-**TOTAL** | **21** | **39** | **60**
+$F$ | 4 <br> (9,69) | 26 <br> (20,31) | **30**
+$\bar{F}$ | 17 <br> (11,31)| 18 <br> (23,69)| **35** 
+**TOTAL** | **21** | **44** | **65**
 
 Para testar a hipótese nula sob as frequências esperada das células, podemos compará-las com as frequências observadas. denotando $O$ para as frequências observadas e $E$ para as esperadas, a base de comparação é a estatítica qui-quadrado:
 
@@ -427,7 +430,7 @@ Se $H_0$ é verdadeira, essa estatística é um valor de uma variável aleatóri
 Calculando a estatítica do Teste
 
 
-$$\chi^2_{obs} = \frac{(4-10{,}5)^2}{10{,}5} + \frac{(26-19{,}5)^2}{19{,}5} + \frac{(17-10{,}5)^2}{10{,}5} + \frac{(13-19{,}5)^2}{19{,}5}= 12{,38}$$
+$$\chi^2_{obs} = \frac{(4-9{,}69)^2}{9{,}69} + \frac{(26-20{,}31)^2}{20{,}31} + \frac{(17-11{,}31)^2}{11{,}31} + \frac{(18-23{,}69)^2}{23{,}69}= 9{,17}$$
 
 Considerando um $\alpha = 5%$ e gl = $1$, pela tabela temos 
 
@@ -435,7 +438,7 @@ Considerando um $\alpha = 5%$ e gl = $1$, pela tabela temos
 # 1. Definições básicas
 gl <- 1
 alfa <- 0.05
-estatistica <- 12.38
+estatistica <- 9.17
 # 2. Encontrar o valor crítico onde começam os 5% finais
 valor_critico <- qchisq(1 - alfa, df = gl)
 
@@ -476,286 +479,234 @@ $\chi^2_{obs} \in RC$
 ```{r}
 dados <- matrix(
   c(4, 26,
-    17, 13),
+    17, 18),
   nrow = 2,
   byrow = TRUE
 )
+row.names(dados) <- c("F","Fc")
+colnames(dados) <- c("R","Rc")
 dados
 chisq.test(dados, correct = FALSE)
 ```
+---
+class: center, middle, inverse
+
+# Qui-quadrado como teste de aderência
+
 
 ---
-class: middle, center, inverse
+0 Qui-quadrado permite compararmos um distribuição de frequências observadas com uma distribuição que poderíamos esperar de acordo com a teoria ou alguma suposição. Assim, o termo **aderência** refere-se à comparação de dados experimentais de frequências observada com a distribuição teórica.
 
-# Comparações de parâmetros de duas populações
-
----
-
-
-
-
-
-Suponha duas amostras aleatórias independentes de tamanhos $n_1$ e $n_2$ ou seja, $X_1 , X_2 , ..., X_{n1}$ e $Y_1 ,Y_2 , ...,Y_{n2}$, respectivamente, de uma população com distribuição $N(\mu_1, \sigma_1^2)$ e de população com distribuição $N(\mu_2, \sigma_2^2)$
-
-### Hipóteses
-
-$H_0: \sigma_1^2 = \sigma_2^2$ ou seja $\left(\frac{\sigma_1^2}{\sigma_2^2} = 1 \right)$ 
-
-$H_1: \sigma_1^2 \neq \sigma_2^2$ ou seja $\left(\frac{\sigma_1^2}{\sigma_2^2} \neq 1 \right)$ 
+![](img/aderencia-chisqr.png)
 
 ---
 
-### Estatística do teste:
+**Exemplo**: Uma empresa produz componentes eletrônicos. Historicamente, sabe-se que a probabilidade de um componente apresentar defeito é $p = 0{,}10$. Um técnico seleciona $6$ componentes independentes de cada lote e registra o número de componentes defeituosos. Durante um mês de trabalho foram avaliados $500$ lotes, obtendo-se:
 
-Sendo $s_1^2$ e $s_2^2$ as variâncias, respectivamente das amostras $n_1$ e $n_2$, o quociente
-
-$$\frac{s^2_1 / \sigma_1^2}{ s^2_2 / \sigma^2_2}$$
-
-Segue a distribuição de $F$ (Snedecor) com $n_1-1$ e $n_2-1$ graus de liberdade $(GL)$, tem a denotação $F(n_1-1, n_2-1)$.
-
-Sob a suposição de $H_0$ ser verdadeira, isto é, $\sigma^2_1 = \sigma^2_2$, tem-se que
-
-$F = \frac{s^2_1}{s^2_2} \sim F(n_1-1, n_2-1)$
-
----
-
-#### Construção da região crítica
-
-Fixado $\alpha$, os pontos críticos serão $F_1$ e $F_2$ da distribuição $F$, tais que:
-
-```{r,out.width = "80%",fig.cap="",fig.align = 'center',echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/arpanosso/estatinfo/master/slides/img/testeH_17.png")
-```
-
-Se $\alpha = 10\%$, pode-se, utilizando a Tabela da distribuição $F$, encontrar diretamente $F_2(5\%)$. Para encontrar $F_1(95\%)$ utiliza-se a propriedade:
+Nº de defeituosos no lote | Frequência Observada (O)
+:--- | :---:
+$0$ | $250$
+$1$ | $187$
+$2$ | $62$
+$3$ ou mais | $1$
+**Total** | **500**
 
 
-$F_{(1-\alpha;\;n_1-1,\; n_2-1)} = \frac{1}{F_{(\alpha;\;n_2-1,\; n_1-1)}}$, assim: $F_{(0,95;\;n_1-1,\; n_2-1)} = \frac{1}{F_{(0,05;\;n_2-1,\; n_1-1)}}$
+Os dados observados são compatíveis com uma distribuição Binomial com $p=0{,}10$ e n = $6$ ?
 
----
-
-#### Exemplo: Construir a regição crítica para o caso abaixo:
-
-Se $n_1 - 1= 5$ e $n_2-1 = 7$ dado $\alpha = 10\%$
-
-
-
-$F2_{(0,05;\;5,\; 7)} = 3,97$ olhamos na tabela
-
----
-[Tabela - Distribuição F-Snedecor](https://github.com/arpanosso/estatinfo/raw/master/docs/TabelaFSnedecor.pdf) 
-
-![](img/testeH_18.png)
-
----
-
-F1 precisamos calcular:
-
-$F1_{(0,95;\;5,\; 7)} = \frac{1}{F_{(0,05;\;7,\; 5)}}=\frac{1}{4,88} = 0,205$
-
-
-
-Assim, $RC = \{0 < F < 0,205 \text{ ou }  F > 3,97 \}$
-
----
-
-Entretanto, o procedimento que se usa na prática é calcular $F$ utilizando sempre a maior variância no numerador $s_1^2 > s^2_2$ portanto $F > 1$, e considerar o ponto crítico $F_{2(\alpha;\;n1-1,\; n2-1)}$.
-
-**Amostra:** Colhidas amostras aleatórias $n_1$ e  $n_2$, calcula-se $s^2_1$ e $s^2_2$ com $(s^2_1 > s^2_2)$, então:
-
-$$F_{obs} = \frac{s^2_1}{s^2_2} \sim F_{(n_1-1;n_2-1)}$$
-
-**Conclusão:** Se $F_{obs} \in RC$, **rejeita-se** $H_0$, no caso contrário, **não se rejeita** $H_0$.
-
----
-
-**Exemplo**. Dois grupo de $8$ animais da mesma idade e raças diferentes foram submetidos a um mesmo regime alimentar. Os resultados para ganho de peso foram:
-
-| | | | | | | | 
----| ---|--- | ---| ---|--- |--- |--- | 
-**R1:** | $2,30$   | $2,10$   | $1,91$   | $1,20$   | $1,93$   | $1,88$   | $1,95$   | $2,10$
-**R2:** | $2,30$   | $2,15$   | $2,00$   | $1,28$   | $2,15$   | $2,20$   | $1,91$   | $2,06$
-
-Ao nível de $5\%$, as variâncias dos ganhos de pesos raças diferem entre si?
-
----
-
-```{r}
-r1<-c(2.30,2.10,1.91,1.20,1.93,1.88,1.95,2.10)
-r2<-c(2.30,2.15,2.00,1.28,2.15,2.20,1.91,2.06)
-var.test(r1,r2)
-```
-
----
-
-Testar as hipóteses:
+Nosso teste aderência possui as seguintes hipóteses estatísticas:
 
 $$
 \begin{cases}
-H_0: \sigma_{r1}^2 = \sigma_{r2}^2 \\
-H_1: \sigma_{r1}^2 \neq \sigma_{r2}^2
+H_0: X \sim Binom(6; 0{,}10) \\
+H_1: X \nsim Binom(6; 0{,}10)
 \end{cases}
 $$
-Calculando os valores de variância para as duas raças:
+---
+Agora precisamos calcular as probabilidades teóricas e multiplicar pelo número de lotes amostrados $(500)$ para calcular as **Frequências Esperadas (E)**.
 
-$s_{r1}^2 = 0,10433$ 
+$$
+P(X=x) = {n \choose x}p^x \cdot q^{n-x}
+$$
+dado: $q = 1-p$
 
-e  
+Assim, temos para $x=0$
 
-$s_{r2}^2 = 0,10068$
+$$
+P(X=0) = {6 \choose 0}(0{,}1)^0 \cdot (0{,}9)^{6-0}=0{,}53144
+$$
 
-sendo que $n_{r1} = n_{r2} = 8$ 
+E sua frequência esperada será
 
-e $\alpha = 5\%$
+$$E_0 = P(X=0) \times 500 \\
+E_0 = 0{,}53144 \times 500 \\
+E_0 = 265{,}721$$
 
-
-A estatística do teste: $\frac{s_{r1}^2}{s_{r2}^2} = \frac{0,10433}{0,10068} = 1,03618$
+Calculando para os demais, temos a tabela a seguir:
 
 ---
-$F_{c(0,05; 7, 7)} = 3,79$ assim, $RC = \{  F > 3,79 \}$
+
+Frequências observada e esperada para o número de componentes defeituoses em 500 lotes.
+
+Nº de defeituosos no lote | Frequência Observada (O) | Frequência Esperada (E).
+:--- | :---: | :---: 
+$0$ | $250$ | $265{,}721$
+$1$ | $187$ | $177{,}147$
+$2$ | $62$ | $49{,}2075$
+$3$ ou mais | $1$ | $7{,}925$
+**Total** | **500** | **500** 
+
+Para o qui-quadrado de aderência, precisamos tomar cuidado com frequências esperadas pequenas. Se alguma categoria tiver $E<0,05$, devemos agrupar categorias.
+
+
+---
+
+Para testar se os números observados $(O)$ são consistentes com os esperados $(E)$ com base na distribuição binomial, usa-se, então, a estatística:
+
+$$\chi^2_{obs} = \sum \limits \frac{(O - E)^2}{E} $$
+
+que sob $H_0$ verdadeira tem distribuição $\chi^2$ (qui-quadrado) com $\nu = n - 1$ graus de liberdade, no exemplo $\nu = 4 - 1 = 3$
+
+
+Quando as $f_e$’s somente puderem ser calculadas mediante estimativas de $m$ parâmetros populacionais, a partir de estatísticas amostrais, o número de graus de liberdade $(\nu)$ é dado por $\nu = n – 1 – m$.
+
+
+
+### Defininto as Hipóteses
+
+$$
+\begin{cases}
+H_0: X \sim Binom(6; 0{,}10) \\
+H_1: X \nsim Binom(6; 0{,}10)
+\end{cases}
+$$
+
+---
+
+
+### Calcular a estatística $\chi^2_{obs}$
+
+$\chi_{obs}^2 = \frac{250-265.7205}{265.7205} +\frac{187-177.147}{177.147} +\frac{62-49.2075}{49.2075} +\frac{1-7.925}{7.925} = 10,8549$
+
+
 ```{r,echo=FALSE}
-curve(df(x,7,7),0,7,xlab="t",ylab="d",
-      main="F(7,7)")
-abline(v=1.03618,col="red",lty=2)
-segments(3.79,-1,3.79,df(3.79,7,7))
-text(1.5,0,"Fobs",col="red")
-text(5,0,"RC",col="black")
+obs<- c(250,187,62,1)
+esp<- c(265.7205, 177.147, 49.2075, 7.925)
+chiobs<- sum((obs-esp)^2/esp)
+qq<-qchisq(p = 0.95,df = 4-1)
+```
+---
+### Determinar a Região Crítica
+
+$RC = \{\chi > \chi_{(n-1)}^2\}$, como $4-1 = 3$ e se $\alpha = 5\%$
+
+```{r,echo=FALSE,fig.height=4, fig.width=11}
+ggplot(data.frame(x=c(0,15)), aes(x = x)) +
+  stat_function(fun = dchisq,
+                args = list(df=3)
+                )+
+  geom_segment(aes(x=qq,y=0,xend=qq,yend=dchisq(qq,3)),color="red") +
+  stat_function(fun = dchisq,
+                args = list(df=3),
+                xlim = c(qq,15),
+                color="red",
+                geom = "area",
+                alpha = .2,
+                fill = "orange"
+    
+  ) + 
+  labs(y="f(X)", x="X") +
+  annotate(geom="text", x=10, y=0.05, 
+           label=expression(paste(alpha,"= 5%")),size=7)+
+  geom_vline(xintercept = 10.85, color = "blue") + 
+   annotate(geom="text", x=12, y=0.15, 
+           label=expression(paste(chi^{2},"= 10,85")),size=7) + 
+  # annotate(geom="text", x=17, y=0.005, 
+  #          label=expression(paste(x[c]," = ",chi^2)),size=8)+
+  theme_bw()
 ```
 
+Assim, $RC = \{ \chi^2 \ge 7{,}815 \}$
 
-Como $F_{obs} \notin RC$ não se rejeita $H_0$, ou seja, as variâncias são estatisticamente iguais ao nível de 5% de significância, ou seja, as variâncias dos ganhos de peso das raças são homocedásticas.
+### Conclusão
 
----
-
-### Comparação de duas médias de populações normais: amostras independentes
-
-A análise da hipótese da igualdade de variâncias é crucial para o uso do teste *t*, na comparação de duas médias, apresentado a seguir.
-
-Com o objetivo de se comparar duas populações examinaremos a situação na qual os dados estão na forma de realizações de amostras aleatórias de tamanhos $n_1$ e $n_2$, selecionadas, respectivamente, das populações $1$ e $2$. 
-
-Uma coleção de $n_1 + n_2$ elementos são aleatoriamente divididos em $2$ grupos de tamanhos $n_1$ e $n_2$, onde cada membro do primeiro grupo recebe o tratamento $1$ e do segundo, o tratamento $2$. Especificamente, estaremos interessados em fazer inferência sobre o parâmetro:
-
-$\mu_1 - \mu_2$ = (média da população 1) – (média da população 2)
-
-**Hipótese:** $H_0: \mu_1 = \mu_2$ ou seja, $\mu_1 - \mu_2 = 0$
-
-**Estatística do teste:** $Z = \frac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{\sqrt{\frac{\sigma^2_1}{n_1} + \frac{\sigma^2_2}{n_2}}} \sim N(0,1)$
+Como $\chi_{obs} \in RC$ rejeitamos $H_0$ ao nível de $5\%$ de significância, ou seja, os resultados não estão de acordo com a distribuição $Binom(6; 0{,}10)$.
 
 ---
 
-#### Caso 1: variâncias conhecidas
+### Exemplo
 
-$Z = \frac{(\bar{X}-\bar{Y})}{\sqrt{\frac{\sigma^2_1}{n_1} + \frac{\sigma^2_2}{n_2}}} \sim N(0,1)$
+Seja $t$ o número eventual de ***Unidades Formadoras de Colônia*** (UFC's)  presentes em um volume representado pelo pequeno quadrado observado em um levantamento isolamento  de  microrganismos  do  solo. Sendo $O$ a frequência observada, observou-se:
 
-#### Caso 2: variâncias desconhecidas e iguais
+t	| 0	| 1	| 2	| 3	| 4	| 5	| 6	| 7	| 8	| 9	| 10 |	11| 12| Total
+:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+$O$ |	0	| 0	| 1	| 3	| 5	| 10	| 15	| 20	| 17	| 6	| 3	| 0	| 0	| **80**
+$t \times O$	| 0	| 0	| 2	| 9	| 20 | 	50| 	90 |	140 | 	136 |	54 |	30 |	0 |	0	| **531** |
 
-Preliminarmente, testa-se se as variâncias das duas populações são iguais. Caso a hipótese não seja rejeitada, isto é, que $\sigma_1^2=\sigma_2^2=\sigma^2$, a estatística anterior transforma-se em:
+Testar se o modelo de Poisson descreve adequadamente os dados da tabela.
 
-$Z = \frac{(\bar{X}-\bar{Y})}{\sigma\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}$ , substituimos $\sigma$ por um estimador, teremos uma expressão muito semelhante à $t$ de Student. Uma estatística para $\sigma^2$ é a média ponderada:
-
-$S_P^2 = \frac{(n_1-1)s_1^2+(n_2-1)s^2_2}{(n_1-1)+(n_2-1)}$
-
-que, como $s^2_1$ e $s^2_2$ são dois estimadores não viciados de $\sigma^2$, também é um estimador não viciado de $\sigma^2$.
-
-Assim, $t = \frac{(\bar{X} - \bar{Y})}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} \sim t(n_1+n_2 - 2) GL$
----
-
-
-**Exemplo**. Dois grupo de $8$ animais da mesma idade e raças diferentes foram submetidos a um mesmo regime alimentar. Os resultados para ganho de peso foram:
-
-| | | | | | | | 
----| ---|--- | ---| ---|--- |--- |--- | 
-**R1:** | $2,30$   | $2,10$   | $1,91$   | $1,20$   | $1,93$   | $1,88$   | $1,95$   | $2,10$
-**R2:** | $2,30$   | $2,15$   | $2,00$   | $1,28$   | $2,15$   | $2,20$   | $1,91$   | $2,06$
-
-Ao nível de $5\%$, as médias dos ganhos de pesos raças diferem entre si?
-
----
-
-```{r}
-r1<-c(2.30,2.10,1.91,1.20,1.93,1.88,1.95,2.10)
-r2<-c(2.30,2.15,2.00,1.28,2.15,2.20,1.91,2.06)
-t.test(r1, r2, alternative = "le", var.equal = TRUE)
-```
-
----
-
-Usando os dados do exemplo anterior, testar se há evidência de que as duas raças
-apresentam o mesmo ganho de peso $(H_0: \mu_A = \mu_B \text{ vs. } H_1: \mu_A < \mu_B)$, ao nível de $5\%$.
-
-
-$$
-\begin{cases}
-H_0: \mu_{r1} = \mu_{r2} \\
-H_1: \mu_{r1} < \mu_{r2}
-\end{cases}
-$$
-
-Calculando os valores de média e desvio-padrão:
-
-
-$\bar{X} = 1,92125$ e $s_{r1}^2 = 0,10433$ e  $\bar{Y} = 2,00625$ e $s_{r2}^2 = 0,10068$
-
-sendo que $n_{r1} = n_{r2} = 8$ e $\alpha = 5\%$
+$\hat{\lambda} = \frac{\sum \limits_{i=1}^k t .f_0}{\sum \limits_{i=1}^k f_o} = \frac{531}{80} =6,6$
 
 Assim, 
 
-$S_P^2 = \frac{(n_1-1)s_1^2+(n_2-1)s^2_2}{(n_1-1)+(n_2-1)} = \frac{(8-1)0,10433+(8-1)0,10068}{(8-1)+(8-1)} = 0,1025054$
-
-sendo $S_P = 0,3201646$
-
-Portanto, 
-
-$t_{obs} = \frac{(\bar{X} - \bar{Y})}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} = \frac{(1,92125 - 2,00625)}{0,3201646\sqrt{\frac{1}{8}+\frac{1}{8}}} = -0,5309908$
+$P(X=x) = \frac{e^{-\lambda} \lambda^{x}}{x!}$
 
 ---
 
-```{r,out.width = "100%",fig.cap="",fig.align = 'center',echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/arpanosso/estatinfo/master/slides/img/ic_05.png")
+As frequências esperadas das três primeiras classes de **t** e das duas últimas são menores do que $5$. Como a validade do teste de aderência, exclui essa situação, as três primeiras classes foram combinadas com a posterior (quarta) e as duas últimas combinadas entre si. A estatística   e o número de graus de liberdade são, então, calculados a partir dessas classes convenientemente modificadas.        
+
+$t$	| $\le$ 3	| 4	| 5	| 6	| 7	| 8	| 9	| 10 | 	$\ge$ 11	| Total
+:---| ---| ---| ---| ---| ---| ---| ---| ---| ---| ---
+$f_o$	| 4	 |5	| 10	| 15	| 20	| 17	| 6	| 3	 |0	| 80
+$f_e$ por Poisson	| 8	| 9	| 11	| 13	| 12| 	10| 	7| 	5| 	5| 	80
+
+
+### Hipótese
+
+$$
+\begin{cases}
+H_0: \text{dados são distribuídos segundo Poisson} 
+\\
+H_1: \text{dados não são distribuídos segundo Poisson}
+\end{cases}
+$$
+
+### Estatística do teste
+
+$\chi^2 = \sum_{i=1}^k \frac{(f_o - f_e)^2}{f_e} = 14,7$
+
+---
+
+### Construção da Região Crítica
+
+Graus de liberdade: nº de classes $(9) - 1 - \text{nº de parâmetros} [1 (\lambda) ] = 7$
+
+$\chi^2_{c(1\%,7)} = 18,48$
+
+```{r,echo=FALSE,fig.height=4}
+ggplot(data.frame(x=c(0,25)), aes(x = x)) +
+  stat_function(fun = dchisq,
+                args = list(df=7)
+                )+
+  geom_segment(aes(x=18.5,y=0,xend=18.5,yend=dchisq(18.5,7)),color="red") +
+  stat_function(fun = dchisq,
+                args = list(df=7),
+                xlim = c(18.5,25),
+                color="red",
+                geom = "area",
+                alpha = .2,
+                fill = "orange"
+    
+  ) + 
+  labs(y="f(X)", x="X") +
+  annotate(geom="text", x=22, y=0.015, 
+           label=expression(paste(alpha,"= 1%")),size=5)+
+  annotate(geom="text", x=13, y=0.005, 
+            label=expression(paste({chi}[obs]^2)),size=8)+
+  geom_vline(xintercept = 14.7, color="blue")+
+  theme_bw()
 ```
 
-Para a construção da **região crítica** do teste: $t_c(14; 0,05) = -1,761$ assim, a região crítica é $RC = \{ t \le -1,76131\}$
-
-
----
-**Conclusão**: Como $t_{obs} \notin RC$, não rejeita-se $H_0$, não há evidências de que a raça 1 apresenta maior ganho de peso que a raça 2.
-
-```{r,echo=FALSE}
-curve(dt(x,14),-4,4,xlab="t",ylab="d",
-      main="t(14)")
-abline(v=0,col="black",lty=2)
-abline(v=-0.5309,col="red",lty=2)
-segments(-1.76,-1,-1.76,dt(-1.76,14))
-text(-0.6,0,"tobs",col="red")
-text(-2.6,0,"RC",col="black")
-```
-
+**Conclusão**: Portanto, como  $\chi^2_{obs} < \chi^2_c$, não há evidência suficiente para se rejeitar a hipótese de que os dados são distribuídos segundo Poisson.
 
 ---
-
-#### Caso 3: variâncias desconhecidas e desiguais (Teste de Smith – Satterthwaite)
-
-
-Quando a hipótese de igualdade de variâncias for rejeitada, deve-se substituir $\sigma^2_1$ e $\sigma^2_2$ pelos seus respectivos estimadores $s^2_1$ e $s^2_2$ obtendo a estatística:
-
-
-$$t = \frac{(\bar{X}-\bar{Y})}{\sqrt{\frac{s^2_1}{n_1}+\frac{s^2_2}{n_2}}}$$
-
-que sob a veracidade de $H_0$ $(\mu_1 - \mu_2 = 0)$, aproxima-se de uma distribuição $t$ de Student, com número de graus de liberdade dado aproximadamente por:
-
-$$gl=\frac{\frac{s^2_1}{n_1} + \frac{s^2_2}{n_2}}{\frac{\left( \frac{s^2_1}{n_1} \right)^2}{n_1-1}+\frac{\left( \frac{s^2_2}{n_2}  \right)^2}{n_2-1}}$$
----
-
-Como o número de graus de liberdade assim calculado, geralmente, é **não inteiro**, recomenda-se aproximá-lo para o inteiro imediatamente anterior a este.
-
-Se $n_1$ e $n_2$ são ambos grandes $(n \ge 30)$, o teste pode ser baseado na estatística.
-
-$$Z = \frac{(\bar{X}-\bar{Y})-(\mu_1-\mu_2)}{\sqrt{\frac{s^2_1}{n_1}+\frac{s^2_2}{n_2}}} \sim N(0,1) \text{ sob } H_0$$
-
-pois permanece válido se $\sigma^2_1$ e $\sigma^2_2$ são substituídos por seus respectivos estimadores amostrais $s^2_1$ e $s^2_2$.
-
-
-**Nota**: no caso da inferência originada de amostras grandes, não é necessário assumir que as distribuições das populações originais são normais, porque o teorema  central do limite garante que as médias amostrais X e Y são aproximadamente distribuídas como $N( \mu_1, \sigma^2 / n_1 )$ e $N( \mu_2, \sigma^2 / n_2 )$, respectivamente. Além disso, a suposição de variâncias populacionais iguais $(\sigma^2_1 = \sigma^2_2)$ que é usada para amostras pequenas, é evitada nessa situação.
-
-
-
