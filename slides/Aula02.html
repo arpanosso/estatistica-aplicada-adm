@@ -417,13 +417,13 @@ class: center, middle, inverse
 
 
 ---
-0 Qui-quadrado permite compararmos um distribuição de frequências observadas com uma distribuição que poderíamos esperar de acordo com a teoria ou alguma suposição. Assim, o termo **aderência** refere-se à comparação de dados experimentais de frequências observada com a distribuição teórica.
+O Qui-quadrado permite compararmos uma distribuição de frequências observadas com uma distribuição que poderíamos esperar de acordo com a teoria ou alguma suposição. Assim, o termo **aderência** refere-se à comparação de dados experimentais de frequências observadas com a distribuição teórica.
 
 ![](img/aderencia-chisqr.png)
 
 ---
 
-**Exemplo**: Em uma empresa de componentes eletrônicos, sabe-se, historicamente que a chance de um componente apresentar defeito é de `\(p = 0{,}10\)`. Um técnico seleciona `\(6\)` componentes independentes de cada lote e registra o número de componentes defeituosos. Durante um mês de trabalho foram avaliados `\(500\)` lotes, obtendo-se:
+**Exemplo**: Em uma empresa de produção de componentes eletrônicos, sabe-se, historicamente que a chance de um componente apresentar defeito é de `\(p = 0{,}10\)`. No procedimento de controle de qualidade, um técnico seleciona `\(6\)` componentes independentes de vários lotes e registra o número de componentes defeituosos. Durante um mês de trabalho foram avaliados `\(500\)` lotes, obtendo-se:
 
 Nº de defeituosos no lote | Frequência Observada (O)
 :--- | :---:
@@ -434,7 +434,7 @@ Nº de defeituosos no lote | Frequência Observada (O)
 **Total** | **500**
 
 
-Os dados observados são compatíveis com uma distribuição Binomial com `\(p=0{,}10\)` e n = `\(6\)` ?
+Os dados observados são compatíveis com uma distribuição Binomial com `\(p=0{,}10\)` e  `\(n = 6\)` ?
 
 Nosso teste de aderência possui as seguintes hipóteses estatísticas:
 
@@ -480,7 +480,7 @@ Nº de defeituosos no lote | Frequência Observada (O) | Frequência Esperada (E
 
 Para o teste qui-quadrado de aderência, precisamos tomar cuidado com frequências esperadas pequenas. 
 
-Se alguma categoria tiver `\(E&lt;0,05\)`, devemos agrupar categorias.
+Se alguma categoria tiver `\(E&lt;0{,}05\)`, devemos agrupar categorias.
 
 
 ---
@@ -510,8 +510,10 @@ $$
 
 ### Calcular a estatística `\(\chi^2_{obs}\)`
 
-`\(\chi_{obs}^2 = \frac{250-265{,}7205}{265{,}7205} +\frac{187-177{,}147}{177{,}147} +\frac{62-49{,}2075}{49{,}2075} +\frac{1-7{,}925}{7{,}925} = 10,8549\)`
+$$\chi^2_{obs} = \sum \limits \frac{(O - E)^2}{E} $$
 
+`$$\chi_{obs}^2 = \frac{(250-265{,}7205)^2}{265{,}7205} +\frac{(187-177{,}147)^2}{177{,}147} \\ +\frac{(62-49{,}2075)^2}{49{,}2075} +\frac{(1-7{,}925)^2}{7{,}925}$$`
+`$$\chi_{obs}^2 = 10,8549$$`
 
 
 ---
@@ -528,34 +530,39 @@ Assim, `\(RC = \{ \chi^2 \ge 7{,}815 \}\)`
 Como `\(\chi_{obs} \in RC\)` rejeitamos `\(H_0\)` ao nível de `\(5\%\)` de significância, ou seja, os resultados não estão de acordo com a distribuição `\(Binom(6; 0{,}10)\)`.
 
 ---
-### Exemplo 2
+#### Exemplo 2
 
-Seja `\(t\)` o número eventual de ***Unidades Formadoras de Colônia*** (UFC's)  presentes em um volume representado pelo pequeno quadrado observado em um levantamento de isolamento  de  microrganismos  do  solo. Sendo `\(O\)` a frequência observada, registrou-se:
+Seja `\(t\)` o número eventual de ***Unidades Formadoras de Colônias*** (UFC's)  presentes em um volume representado pelo pequeno quadrado observado em um levantamento de isolamento  de  microrganismos  do  solo. 
+
+![](img/exemplo-2-chisquare.png)
+---
+
+Sendo `\(O\)` a frequência observada, registrou-se:
 
 t	| 0	| 1	| 2	| 3	| 4	| 5	| 6	| 7	| 8	| 9	| 10 |	11| 12| Total
 :---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
 `\(O\)` |	0	| 0	| 1	| 3	| 5	| 10	| 15	| 20	| 17	| 6	| 3	| 0	| 0	| **80**
 `\(t \times O\)`	| 0	| 0	| 2	| 9	| 20 | 	50| 	90 |	140 | 	136 |	54 |	30 |	0 |	0	| **531** |
 
-Testar se o modelo de Poisson descreve adequadamente os dados da tabela.
+Testar se o modelo de Poisson descreve adequadamente os dados da tabela. Para realizar o teste, incialmente devemos calcular a média de UFC's presentes no solo em questão. Para isso, basta multiplicarmos o valor observado de UFC (t) pelo valor total de quadrados, e dividir pelo número total de quadrados, análogo à uma média ponderada.
 
-`\(\hat{\lambda} = \frac{\sum \limits_{i=1}^k t .O}{\sum \limits_{i=1}^k O} = \frac{531}{80} =6,6\)`
+`\(\hat{\lambda} = \frac{\sum \limits_{i=1}^k t .O}{\sum \limits_{i=1}^k O} = \frac{531}{80} =6{,}6\)`
 
-Assim, 
+Assim, podemos utilizar a fórmula da distribuição de Poisson para calcular as frequência esperadas (E), teóricas.
 
-`\(P(X=x) = \frac{e^{-\lambda} \lambda^{x}}{x!}\)`
+`$$P(X=x) = \frac{e^{-\lambda} \lambda^{x}}{x!}$$`
 
 ---
 
-As frequências esperadas das três primeiras classes de **t** e das duas últimas são menores do que `\(5\)`. Como a validade do teste de aderência, exclui essa situação, as três primeiras classes foram combinadas com a posterior (quarta) e as duas últimas combinadas entre si. A estatística   e o número de graus de liberdade são, então, calculados a partir dessas classes convenientemente modificadas.        
+As frequências esperadas das três primeiras classes de **t** e das duas últimas são menores do que `\(5\)`. Como a validade do teste de aderência, exclui essa situação, as três primeiras classes foram combinadas com a posterior (quarta) e as duas últimas combinadas entre si. A estatística e o número de graus de liberdade são, então, calculados a partir dessas classes convenientemente modificadas.        
 
 `\(t\)`	| `\(\le\)` 3	| 4	| 5	| 6	| 7	| 8	| 9	| 10 | 	`\(\ge\)` 11	| Total
 :---| ---| ---| ---| ---| ---| ---| ---| ---| ---| ---
 `\(O\)`	| 4	 |5	| 10	| 15	| 20	| 17	| 6	| 3	 |0	| 80
-`\(E\)` por Poisson	| 8	| 9	| 11	| 13	| 12| 	10| 	7| 	5| 	5| 	80
+`\(E\)` &lt;br&gt; (Poisson)	| 8	| 9	| 11	| 13	| 12| 	10| 	7| 	5| 	5| 	80
 
 
-### Hipótese
+#### Hipóteses
 
 $$
 `\begin{cases}
@@ -565,21 +572,20 @@ H_1: \text{dados não são distribuídos segundo Poisson}
 \end{cases}`
 $$
 
-### Estatística do teste
+#### Estatística do teste
 
-`\(\chi^2 = \sum_{i=1}^k \frac{(f_o - f_e)^2}{f_e} = 14,7\)`
-
+`$$\chi^2 = \sum_{i=1}^k \frac{(O - E)^2}{E} = 14{,}7$$`
 ---
 
 ### Construção da Região Crítica
 
-Graus de liberdade: nº de classes `\((9) - 1 - \text{nº de parâmetros} [1 (\lambda) ] = 7\)`
+Graus de liberdade: nº de classes `\((9) - 1 - \text{nº de parâmetros estimados} [1 (\lambda) ] = 7\)`
 
-`\(\chi^2_{c(1\%,7)} = 18,48\)`
+`\(\chi^2_{c(0{,}01)} = 18{,}475\)`
 
 &lt;img src="Aula02_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
-**Conclusão**: Portanto, como  `\(\chi^2_{obs} &lt; \chi^2_c\)`, não há evidência suficiente para se rejeitar a hipótese de que os dados são distribuídos segundo Poisson.
+**Conclusão**: Portanto, como  `\(\chi^2_{obs} &lt; \chi^2_c\)`, não há evidência suficiente para se rejeitar a hipótese ao nível de `\(1\%\)` de significância de que os dados são distribuídos segundo Poisson.
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
