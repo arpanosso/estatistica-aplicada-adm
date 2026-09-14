@@ -111,21 +111,21 @@ $$F_{obs} = \frac{s^2_1}{s^2_2} \sim F_{(n_1-1;n_2-1)}$$
 
 ---
 
-**Exemplo**. Dois grupo de $8$ animais da mesma idade e raças diferentes foram submetidos a um mesmo regime alimentar. Os resultados para ganho de peso foram:
+**Exemplo**. Duas equipes, cada uma composta por $8$ funcionários de uma empresa, foram submetidas ao mesmo programa de treinamento durante um mês. Os funcionários pertencem a dois setores diferentes da empresa. Ao final do período, foram avaliados os Tempo médio para execução das tarefas (horas):
 
 | | | | | | | | 
 ---| ---|--- | ---| ---|--- |--- |--- | 
-**R1:** | $2,30$   | $2,10$   | $1,91$   | $1,20$   | $1,93$   | $1,88$   | $1,95$   | $2,10$
-**R2:** | $2,30$   | $2,15$   | $2,00$   | $1,28$   | $2,15$   | $2,20$   | $1,91$   | $2,06$
+**R1:** | $2{,}30$   | $2{,}10$   | $1{,}91$   | $1{,}20$   | $1{,}93$   | $1{,}88$   | $1{,}95$   | $2{,}10$
+**R2:** | $2{,}30$   | $2{,}15$   | $2{,}00$   | $1{,}28$   | $2{,}15$   | $2{,}20$   | $1{,}91$   | $2{,}06$
 
-Ao nível de $5\%$, as variâncias dos ganhos de pesos raças diferem entre si?
+Ao nível de $5\%$, as variâncias dos tempos médios de execução das tarefas diferiram entre si?
 
 ---
 
 ```{r}
-r1<-c(2.30,2.10,1.91,1.20,1.93,1.88,1.95,2.10)
-r2<-c(2.30,2.15,2.00,1.28,2.15,2.20,1.91,2.06)
-var.test(r1,r2)
+g1<-c(2.30,2.10,1.91,1.20,1.93,1.88,1.95,2.10)
+g2<-c(2.30,2.15,2.00,1.28,2.15,2.20,1.91,2.06)
+var.test(g1,g2)
 ```
 
 ---
@@ -134,27 +134,27 @@ Testar as hipóteses:
 
 $$
 \begin{cases}
-H_0: \sigma_{r1}^2 = \sigma_{r2}^2 \\
-H_1: \sigma_{r1}^2 \neq \sigma_{r2}^2
+H_0: \sigma_{G1}^2 = \sigma_{G2}^2 \\
+H_1: \sigma_{G1}^2 \neq \sigma_{G2}^2
 \end{cases}
 $$
-Calculando os valores de variância para as duas raças:
+Calculando os valores de variância para os dois grupos de funcionários:
 
-$s_{r1}^2 = 0,10433$ 
+$s_{G1}^2 = 0{,}10433$ 
 
 e  
 
-$s_{r2}^2 = 0,10068$
+$s_{G2}^2 = 0{,}10068$
 
-sendo que $n_{r1} = n_{r2} = 8$ 
+sendo que $n_{G1} = n_{G2} = 8$ 
 
 e $\alpha = 5\%$
 
 
-A estatística do teste: $\frac{s_{r1}^2}{s_{r2}^2} = \frac{0,10433}{0,10068} = 1,03618$
+A estatística do teste: $\frac{s_{G1}^2}{s_{G2}^2} = \frac{0{,}10433}{0{,}10068} = 1,03618$
 
 ---
-$F_{c(0,05; 7, 7)} = 3,79$ assim, $RC = \{  F > 3,79 \}$
+$F_{c(0{,}05; 7 7)} = 3,79$ assim, $RC = \{  F > 3{,}79 \}$
 ```{r,echo=FALSE}
 curve(df(x,7,7),0,7,xlab="t",ylab="d",
       main="F(7,7)")
@@ -165,7 +165,7 @@ text(5,0,"RC",col="black")
 ```
 
 
-Como $F_{obs} \notin RC$ não se rejeita $H_0$, ou seja, as variâncias são estatisticamente iguais ao nível de 5% de significância, ou seja, as variâncias dos ganhos de peso das raças são homocedásticas.
+Como $F_{obs} \notin RC$ não se rejeita $H_0$, ou seja, as variâncias são estatisticamente iguais ao nível de $5\%$ de significância, ou seja, as variâncias dos tempos de realização das tarefas são homocedásticas.
 
 ---
 
@@ -199,56 +199,55 @@ $S_P^2 = \frac{(n_1-1)s_1^2+(n_2-1)s^2_2}{(n_1-1)+(n_2-1)}$
 
 que, como $s^2_1$ e $s^2_2$ são dois estimadores não viciados de $\sigma^2$, também é um estimador não viciado de $\sigma^2$.
 
-Assim, $t = \frac{(\bar{X} - \bar{Y})}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} \sim t(n_1+n_2 - 2) GL$
+Assim, $t = \frac{(\bar{X} - \bar{Y})}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} \sim t(GL = n_1+n_2 - 2)$
 ---
 
 
-**Exemplo**. Dois grupo de $8$ animais da mesma idade e raças diferentes foram submetidos a um mesmo regime alimentar. Os resultados para ganho de peso foram:
+**Exemplo**. Duas equipes, cada uma composta por $8$ funcionários de uma empresa, foram submetidas ao mesmo programa de treinamento durante um mês. Os funcionários pertencem a dois setores diferentes da empresa. Ao final do período, foram avaliados os Tempo médio para execução das tarefas (horas):
 
 | | | | | | | | 
 ---| ---|--- | ---| ---|--- |--- |--- | 
-**R1:** | $2,30$   | $2,10$   | $1,91$   | $1,20$   | $1,93$   | $1,88$   | $1,95$   | $2,10$
-**R2:** | $2,30$   | $2,15$   | $2,00$   | $1,28$   | $2,15$   | $2,20$   | $1,91$   | $2,06$
+**R1:** | $2{,}30$   | $2{,}10$   | $1{,}91$   | $1{,}20$   | $1{,}93$   | $1{,}88$   | $1{,}95$   | $2{,}10$
+**R2:** | $2{,}30$   | $2{,}15$   | $2{,}00$   | $1{,}28$   | $2{,}15$   | $2{,}20$   | $1{,}91$   | $2{,}06$
 
-Ao nível de $5\%$, as médias dos ganhos de pesos raças diferem entre si?
+Ao nível de $5\%$, as médias dos tempos de execução de tarefas diferem entre si?
 
 ---
 
 ```{r}
-r1<-c(2.30,2.10,1.91,1.20,1.93,1.88,1.95,2.10)
-r2<-c(2.30,2.15,2.00,1.28,2.15,2.20,1.91,2.06)
-t.test(r1, r2, alternative = "le", var.equal = TRUE)
+g1<-c(2.30,2.10,1.91,1.20,1.93,1.88,1.95,2.10)
+g2<-c(2.30,2.15,2.00,1.28,2.15,2.20,1.91,2.06)
+t.test(g1, g2, alternative = "le", var.equal = TRUE)
 ```
 
 ---
 
-Usando os dados do exemplo anterior, testar se há evidência de que as duas raças
-apresentam o mesmo ganho de peso $(H_0: \mu_A = \mu_B \text{ vs. } H_1: \mu_A < \mu_B)$, ao nível de $5\%$.
+Usando os dados do exemplo anterior, testar se há evidência de que os dois grupos des funcionários apresentam o mesmo tempo de execução de tarefas $(H_0: \mu_A = \mu_B \text{ vs. } H_1: \mu_A < \mu_B)$, ao nível de $5\%$.
 
 
 $$
 \begin{cases}
-H_0: \mu_{r1} = \mu_{r2} \\
-H_1: \mu_{r1} < \mu_{r2}
+H_0: \mu_{G1} = \mu_{G2} \\
+H_1: \mu_{G1} < \mu_{G2}
 \end{cases}
 $$
 
 Calculando os valores de média e desvio-padrão:
 
 
-$\bar{X} = 1,92125$ e $s_{r1}^2 = 0,10433$ e  $\bar{Y} = 2,00625$ e $s_{r2}^2 = 0,10068$
+$\bar{X} = 1{,}92125$ e $s_{G1}^2 = 0{,}10433$ e  $\bar{Y} = 2{,}00625$ e $s_{G2}^2 = 0{,}10068$
 
-sendo que $n_{r1} = n_{r2} = 8$ e $\alpha = 5\%$
+sendo que $n_{G1} = n_{G2} = 8$ e $\alpha = 5\%$
 
 Assim, 
 
-$S_P^2 = \frac{(n_1-1)s_1^2+(n_2-1)s^2_2}{(n_1-1)+(n_2-1)} = \frac{(8-1)0,10433+(8-1)0,10068}{(8-1)+(8-1)} = 0,1025054$
+$S_P^2 = \frac{(n_1-1)s_1^2+(n_2-1)s^2_2}{(n_1-1)+(n_2-1)} = \frac{(8-1)0{,}10433+(8-1)0{,}10068}{(8-1)+(8-1)} = 0{,}1025054$
 
 sendo $S_P = 0,3201646$
 
 Portanto, 
 
-$t_{obs} = \frac{(\bar{X} - \bar{Y})}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} = \frac{(1,92125 - 2,00625)}{0,3201646\sqrt{\frac{1}{8}+\frac{1}{8}}} = -0,5309908$
+$t_{obs} = \frac{(\bar{X} - \bar{Y})}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} = \frac{(1{,}92125 - 2{,}00625)}{0{,}3201646\sqrt{\frac{1}{8}+\frac{1}{8}}} = -0{,}5309908$
 
 ---
 
@@ -256,11 +255,11 @@ $t_{obs} = \frac{(\bar{X} - \bar{Y})}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}} = \
 knitr::include_graphics("https://raw.githubusercontent.com/arpanosso/estatinfo/master/slides/img/ic_05.png")
 ```
 
-Para a construção da **região crítica** do teste: $t_c(14; 0,05) = -1,761$ assim, a região crítica é $RC = \{ t \le -1,76131\}$
+Para a construção da **região crítica** do teste: $t_c(14; 0{,}05) = -1{,}761$ assim, a região crítica é $RC = \{ t \le -1{,}76131\}$
 
 
 ---
-**Conclusão**: Como $t_{obs} \notin RC$, não rejeita-se $H_0$, não há evidências de que a raça 1 apresenta maior ganho de peso que a raça 2.
+**Conclusão**: Como $t_{obs} \notin RC$, não rejeita-se $H_0$, não há evidências de que o grupo de funcionários 1 apresenta maior tempo em execução de tarefas que o grupo 2.
 
 ```{r,echo=FALSE}
 curve(dt(x,14),-4,4,xlab="t",ylab="d",
